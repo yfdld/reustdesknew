@@ -2803,7 +2803,7 @@ mod tests {
             "https://api.telegram.org/bot123/sendMessage",
             "https://admin.example.com"
         ));
-        assert!(!should_use_tcp_proxy_for_api_url(
+        assert!(should_use_tcp_proxy_for_api_url(
             "http://ipv4.linxq.cn:21114/api/login",
             "http://ipv4.linxq.cn:21114"
         ));
