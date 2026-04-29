@@ -979,6 +979,8 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
+          # Add execute permissions to NDK scripts
+          chmod +x flutter/ndk_arm64.sh flutter/ndk_arm.sh flutter/ndk_x64.sh flutter/ndk_x86.sh
           rustup target add ${{ matrix.job.target }}
           cargo install cargo-ndk --version ${{ env.CARGO_NDK_VERSION }} --locked
           case ${{ matrix.job.target }} in
