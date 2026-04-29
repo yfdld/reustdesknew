@@ -168,6 +168,8 @@ jobs:
     - uses: Swatinem/rust-cache@v2
 
     - name: Build
+      env:
+        BINDGEN_EXTRA_CLANG_ARGS: "-I${VCPKG_ROOT}/installed/x64-windows-static/include"
       uses: actions-rs/cargo@v1
       with:
         use-cross: ${{ matrix.job.use-cross }}
