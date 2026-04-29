@@ -927,6 +927,8 @@ jobs:
 
       - name: Install vcpkg dependencies
         run: |
+          # Add execute permission to build script
+          chmod +x flutter/build_android_deps.sh
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
               ANDROID_TARGET=arm64-v8a
