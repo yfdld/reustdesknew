@@ -712,6 +712,8 @@ jobs:
 
       - name: Build rustdesk
         run: |
+          # Add execute permissions to scripts
+          chmod +x build.py flutter/build_android_deps.sh
           if [ "${{ matrix.job.target }}" = "aarch64-apple-darwin" ]; then
             MIN_MACOS_VERSION="12.3"
             sed -i -e "s/MACOSX_DEPLOYMENT_TARGET\=[0-9]*.[0-9]*/MACOSX_DEPLOYMENT_TARGET=${MIN_MACOS_VERSION}/" build.py
