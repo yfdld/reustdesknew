@@ -2932,7 +2932,7 @@ class ServerConfig {
       : idServer = options['custom-rendezvous-server'] ?? "ipv4.linxq.cn",
         relayServer = options['relay-server'] ?? "ipv4.linxq.cn",
         apiServer = options['api-server'] ?? "http://ipv4.linxq.cn:21114",
-        key = options['key'] ?? "a321654987";
+        key = options['key'] ?? "407ZpITlemfwPkLnQYgmQWefXG5++DhHSb4Z918AyBE=";
 }
 
 Widget dialogButton(String text,

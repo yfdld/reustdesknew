@@ -1,0 +1,29 @@
+remote_id = '请输入ID或IP地址'
+kb_layout_type = ''
+size = [
+    0,
+    0,
+    0,
+    0,
+]
+fav = ['']
+
+[options]
+enable-check-update = 'N'
+remote-menubar-drag-left = '0.0'
+enable-udp-punch = 'Y'
+enable-ipv6-punch = 'Y'
+remote-menubar-drag-right = '1.0'
+
+[ui_flutter]
+peer-tab-index = '0'
+wm_PortForward = '{"width":1800.0,"height":1100.0,"offsetWidth":2020.0,"offsetHeight":57.0,"isMaximized":false,"isFullscreen":false}'
+wm_RemoteDesktop = '{"width":1197.0,"height":874.0,"offsetWidth":192.0,"offsetHeight":78.0,"isMaximized":true,"isFullscreen":false}'
+wm_Terminal = '{"width":1300.0,"height":740.0,"offsetWidth":462.0,"offsetHeight":216.0,"isMaximized":false,"isFullscreen":false}'
+wm_ViewCamera = '{"width":1320.0,"height":760.0,"offsetWidth":468.0,"offsetHeight":328.0,"isMaximized":false,"isFullscreen":false}'
+peer-card-ui-type = '1'
+draggablePositionMobile = '130.0,28.75'
+wm_Main = '{"width":938.0,"height":620.0,"offsetWidth":0.0,"offsetHeight":5.0,"isMaximized":false,"isFullscreen":false}'
+peer-sorting = 'Remote ID'
+showMobileActions = 'Y'
+wm_FileTransfer = '{"width":1320.0,"height":760.0,"offsetWidth":300.0,"offsetHeight":160.0,"isMaximized":false,"isFullscreen":false}'
