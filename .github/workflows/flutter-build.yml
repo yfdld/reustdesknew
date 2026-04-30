@@ -166,8 +166,14 @@ jobs:
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk
+          pushd flutter; flutter pub get --enforce-lockfile; popd
           python3 .\build.py --portable --hwcodec --flutter --vram --skip-portable-pack
           mv ./flutter/build/windows/x64/runner/Release ./rustdesk
+
+          # Diagnostic: list flutter_assets
+          echo "=== Flutter assets content ==="
+          Get-ChildItem -Recurse ./rustdesk/data/flutter_assets | Select-Object FullName
+          echo "=== Flutter assets end ==="
 
           # Download usbmmidd_v2.zip and extract it to ./rustdesk
           Invoke-WebRequest -Uri https://github.com/rustdesk-org/rdev/releases/download/usbmmidd_v2/usbmmidd_v2.zip -OutFile usbmmidd_v2.zip
