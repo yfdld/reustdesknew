@@ -2087,10 +2087,15 @@ pub fn load_custom_client() {
     }
     {
         let mut default_settings = config::DEFAULT_SETTINGS.write().unwrap();
-        default_settings.insert(keys::OPTION_ALLOW_REMOTE_CONFIG_MODIFICATION.to_owned(), "Y".to_owned());
         default_settings.insert(keys::OPTION_VIEW_STYLE.to_owned(), "adaptive".to_owned());
         default_settings.insert(keys::OPTION_DIRECT_SERVER.to_owned(), "Y".to_owned());
-        default_settings.insert(keys::OPTION_ENABLE_UDP_PUNCH.to_owned(), "Y".to_owned());
+        default_settings.insert(keys::OPTION_ALLOW_REMOTE_CONFIG_MODIFICATION.to_owned(), "Y".to_owned());
+    }
+    {
+        let mut local_settings = config::DEFAULT_LOCAL_SETTINGS.write().unwrap();
+        local_settings.insert(keys::OPTION_ENABLE_UDP_PUNCH.to_owned(), "Y".to_owned());
+        local_settings.insert(keys::OPTION_ENABLE_IPV6_PUNCH.to_owned(), "Y".to_owned());
+        local_settings.insert(keys::OPTION_ENABLE_CHECK_UPDATE.to_owned(), "N".to_owned());
     }
     #[cfg(debug_assertions)]
     if let Ok(data) = std::fs::read_to_string("./custom.txt") {
