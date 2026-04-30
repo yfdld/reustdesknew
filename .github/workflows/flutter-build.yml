@@ -116,7 +116,7 @@ jobs:
           flutter precache --windows
           Invoke-WebRequest -Uri https://github.com/rustdesk/engine/releases/download/main/windows-x64-release.zip -OutFile windows-x64-release.zip
           Expand-Archive -Path windows-x64-release.zip -DestinationPath windows-x64-release
-          mv -Force windows-x64-release/*  C:/hostedtoolcache/windows/flutter/stable-${{ env.FLUTTER_VERSION }}-x64/bin/cache/artifacts/engine/windows-x64-release/
+          mv -Force windows-x64-release/*  C:/hostedtoolcache/windows/flutter/stable-${{ env.FLUTTER_VERSION }}-x64/bin/cache/artifacts/engine/windows-x64-release/
 
       - name: Patch flutter
         shell: bash
@@ -166,16 +166,8 @@ jobs:
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk
-          pushd flutter; flutter pub get; popd
           python3 .\build.py --portable --hwcodec --flutter --vram --skip-portable-pack
           mv ./flutter/build/windows/x64/runner/Release ./rustdesk
-
-          # Diagnostic: check if SVGs are bundled
-          echo "=== Flutter assets SVGs ==="
-          cmd /c "dir /s /b rustdesk\data\flutter_assets\assets\*.svg"
-          echo "=== AssetManifest.json ==="
-          cat rustdesk/data/flutter_assets/AssetManifest.json
-          echo "=== End diagnostic ==="
 
           # Download usbmmidd_v2.zip and extract it to ./rustdesk
           Invoke-WebRequest -Uri https://github.com/rustdesk-org/rdev/releases/download/usbmmidd_v2/usbmmidd_v2.zip -OutFile usbmmidd_v2.zip

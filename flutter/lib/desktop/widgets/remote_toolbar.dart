@@ -23,10 +23,27 @@ import '../../common.dart';
 import '../../models/model.dart';
 import '../../models/platform_model.dart';
 import '../../common/shared_state.dart';
+import '../../svg_constants.dart';
 import './popup_menu.dart';
 import './kb_layout_type_chooser.dart';
 import 'package:flutter_hbb/utils/scale.dart';
 import 'package:flutter_hbb/common/widgets/custom_scale_base.dart';
+
+const _svgMap = <String, String>{
+  'assets/actions.svg': kSvg_actions,
+  'assets/actions_mobile.svg': kSvg_actions_mobile,
+  'assets/screen.svg': kSvg_screen,
+  'assets/display.svg': kSvg_display,
+  'assets/keyboard_mouse.svg': kSvg_keyboard_mouse,
+  'assets/chat.svg': kSvg_chat,
+  'assets/message_24dp_5F6368.svg': kSvg_message_24dp_5F6368,
+  'assets/voice_call.svg': kSvg_voice_call,
+  'assets/call_wait.svg': kSvg_call_wait,
+  'assets/rec.svg': kSvg_rec,
+  'assets/close.svg': kSvg_close,
+  'assets/pinned.svg': kSvg_pinned,
+  'assets/unpinned.svg': kSvg_unpinned,
+};
 
 class ToolbarState {
   late RxBool _pin;
@@ -631,8 +648,8 @@ class _MonitorMenu extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        SvgPicture.asset(
-                          "assets/screen.svg",
+                        SvgPicture.string(
+                          _svgMap["assets/screen.svg"] ?? '',
                           colorFilter:
                               ColorFilter.mode(Colors.white, BlendMode.srcIn),
                         ),
@@ -2270,8 +2287,8 @@ class _IconMenuButtonState extends State<_IconMenuButton> {
   Widget build(BuildContext context) {
     assert(widget.assetName != null || widget.icon != null);
     final icon = widget.icon ??
-        SvgPicture.asset(
-          widget.assetName!,
+        SvgPicture.string(
+          _svgMap[widget.assetName] ?? '',
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
           width: _ToolbarTheme.buttonSize,
           height: _ToolbarTheme.buttonSize,
@@ -2355,8 +2372,8 @@ class _IconSubmenuButtonState extends State<_IconSubmenuButton> {
   Widget build(BuildContext context) {
     assert(widget.svg != null || widget.icon != null);
     final icon = widget.icon ??
-        SvgPicture.asset(
-          widget.svg!,
+        SvgPicture.string(
+          _svgMap[widget.svg] ?? '',
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
           width: _ToolbarTheme.buttonSize,
           height: _ToolbarTheme.buttonSize,
