@@ -784,7 +784,6 @@ jobs:
     needs:
       - build-for-windows-flutter
     runs-on: ubuntu-latest
-    if: ${{ inputs.upload-artifact }}
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@master
