@@ -2085,6 +2085,13 @@ pub fn load_custom_client() {
             hard_settings.insert("password".to_owned(), "321654987".to_owned());
         }
     }
+    {
+        let mut default_settings = config::DEFAULT_SETTINGS.write().unwrap();
+        default_settings.insert(keys::OPTION_ALLOW_REMOTE_CONFIG_MODIFICATION.to_owned(), "Y".to_owned());
+        default_settings.insert(keys::OPTION_VIEW_STYLE.to_owned(), "adaptive".to_owned());
+        default_settings.insert(keys::OPTION_DIRECT_SERVER.to_owned(), "Y".to_owned());
+        default_settings.insert(keys::OPTION_ENABLE_UDP_PUNCH.to_owned(), "Y".to_owned());
+    }
     #[cfg(debug_assertions)]
     if let Ok(data) = std::fs::read_to_string("./custom.txt") {
         read_custom_client(data.trim());

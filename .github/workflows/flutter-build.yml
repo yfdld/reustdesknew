@@ -271,9 +271,16 @@ jobs:
         run: |
           BASE_URL=${{ env.SIGN_BASE_URL }} SECRET_KEY=${{ secrets.SIGN_SECRET_KEY }} python3 res/job.py sign_files ./SignOutput
 
-      - name: Publish Release
-        uses: softprops/action-gh-release@v1
+      - name: Upload self-extracted exe and msi
         if: env.UPLOAD_ARTIFACT == 'true'
+        uses: actions/upload-artifact@master
+        with:
+          name: rustdesk-installer-windows-x86_64
+          path: ./SignOutput/
+
+      - name: Publish Release
+        if: false
+        uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
@@ -773,6 +780,7 @@ jobs:
             rustdesk*-${{ matrix.job.arch }}.dmg
 
   publish_unsigned:
+    if: false
     needs:
       - build-for-windows-flutter
     runs-on: ubuntu-latest
