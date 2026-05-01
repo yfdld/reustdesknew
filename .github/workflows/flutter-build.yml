@@ -1007,7 +1007,7 @@ jobs:
           # Fix namespace for all third-party plugins (AGP 8.x requires namespace)
           cd flutter
           flutter pub get
-          find .dart_tool/package_config.json -name package_config.json -exec cat {} \; | python3 -c "
+          cat > /tmp/fix_namespace.py << 'PYEOF'
           import json, os, re
           data = json.load(open('.dart_tool/package_config.json'))
           for pkg in data.get('packages', []):
@@ -1019,13 +1019,14 @@ jobs:
               with open(bg) as f: content = f.read()
               if 'namespace' in content: continue
               with open(mf) as f: manifest = f.read()
-              m = re.search(r'package=[\"'\''](.*?)[\"'\'']', manifest)
+              m = re.search(r'package="([^"]+)"', manifest)
               if m:
                   ns = m.group(1)
-                  content = content.replace('android {', \"android {\\n    namespace '\" + ns + \"'\", 1)
+                  content = content.replace('android {', "android {\n    namespace '" + ns + "'", 1)
                   with open(bg, 'w') as f: f.write(content)
                   print(f'Added namespace {ns} to {bg}')
-          "
+          PYEOF
+          python3 /tmp/fix_namespace.py
           cd ..
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
@@ -1233,7 +1234,7 @@ jobs:
           # Fix namespace for all third-party plugins (AGP 8.x requires namespace)
           cd flutter
           flutter pub get
-          python3 -c "
+          cat > /tmp/fix_namespace.py << 'PYEOF'
           import json, os, re
           data = json.load(open('.dart_tool/package_config.json'))
           for pkg in data.get('packages', []):
@@ -1245,13 +1246,14 @@ jobs:
               with open(bg) as f: content = f.read()
               if 'namespace' in content: continue
               with open(mf) as f: manifest = f.read()
-              m = re.search(r'package=[\"'\''](.*?)[\"'\'']', manifest)
+              m = re.search(r'package="([^"]+)"', manifest)
               if m:
                   ns = m.group(1)
-                  content = content.replace('android {', \"android {\\n    namespace '\" + ns + \"'\", 1)
+                  content = content.replace('android {', "android {\n    namespace '" + ns + "'", 1)
                   with open(bg, 'w') as f: f.write(content)
                   print(f'Added namespace {ns} to {bg}')
-          "
+          PYEOF
+          python3 /tmp/fix_namespace.py
           cd ..
           mv ./flutter/android/app/src/main/jniLibs/arm64-v8a/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
           cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/
