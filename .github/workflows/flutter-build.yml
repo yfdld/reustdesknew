@@ -1004,6 +1004,27 @@ jobs:
           sed -i "s/org.gradle.jvmargs=-Xmx1024M/org.gradle.jvmargs=-Xmx2g/g" ./flutter/android/gradle.properties
           # temporary use debug sign config
           sed -i "s/signingConfigs.release/signingConfigs.debug/g" ./flutter/android/app/build.gradle
+          # Fix namespace for third-party plugins (AGP 8.x requires namespace)
+          cd flutter
+          flutter pub get
+          for dir in .dart_tool/package_config.json; do break; done
+          PUB_CACHE="${PUB_CACHE:-$HOME/.pub-cache}"
+          if [ -d "$PUB_CACHE/hosted/pub.dev/external_path-1.0.3" ]; then
+            sed -i '/android {/a\    namespace '\''com.pinciat.external_path'\''' "$PUB_CACHE/hosted/pub.dev/external_path-1.0.3/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/device_info-2.0.3" ]; then
+            sed -i '/android {/a\    namespace '\''io.flutter.plugins.deviceinfo'\''' "$PUB_CACHE/hosted/pub.dev/device_info-2.0.3/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/flutter_keyboard_visibility-5.4.1" ]; then
+            sed -i '/android {/a\    namespace '\''com.jrai.flutter_keyboard_visibility'\''' "$PUB_CACHE/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/qr_code_scanner-1.0.1" ]; then
+            sed -i '/android {/a\    namespace '\''net.touchcapture.qr.flutterqr'\''' "$PUB_CACHE/hosted/pub.dev/qr_code_scanner-1.0.1/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/sqflite-2.2.0" ]; then
+            sed -i '/android {/a\    namespace '\''com.tekartik.sqflite'\''' "$PUB_CACHE/hosted/pub.dev/sqflite-2.2.0/android/build.gradle"
+          fi
+          cd ..
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
               mkdir -p ./flutter/android/app/src/main/jniLibs/arm64-v8a
@@ -1207,6 +1228,26 @@ jobs:
           sed -i "s/org.gradle.jvmargs=-Xmx1024M/org.gradle.jvmargs=-Xmx2g/g" ./flutter/android/gradle.properties
           # temporary use debug sign config
           sed -i "s/signingConfigs.release/signingConfigs.debug/g" ./flutter/android/app/build.gradle
+          # Fix namespace for third-party plugins (AGP 8.x requires namespace)
+          cd flutter
+          flutter pub get
+          PUB_CACHE="${PUB_CACHE:-$HOME/.pub-cache}"
+          if [ -d "$PUB_CACHE/hosted/pub.dev/external_path-1.0.3" ]; then
+            sed -i '/android {/a\    namespace '\''com.pinciat.external_path'\''' "$PUB_CACHE/hosted/pub.dev/external_path-1.0.3/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/device_info-2.0.3" ]; then
+            sed -i '/android {/a\    namespace '\''io.flutter.plugins.deviceinfo'\''' "$PUB_CACHE/hosted/pub.dev/device_info-2.0.3/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/flutter_keyboard_visibility-5.4.1" ]; then
+            sed -i '/android {/a\    namespace '\''com.jrai.flutter_keyboard_visibility'\''' "$PUB_CACHE/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/qr_code_scanner-1.0.1" ]; then
+            sed -i '/android {/a\    namespace '\''net.touchcapture.qr.flutterqr'\''' "$PUB_CACHE/hosted/pub.dev/qr_code_scanner-1.0.1/android/build.gradle"
+          fi
+          if [ -d "$PUB_CACHE/hosted/pub.dev/sqflite-2.2.0" ]; then
+            sed -i '/android {/a\    namespace '\''com.tekartik.sqflite'\''' "$PUB_CACHE/hosted/pub.dev/sqflite-2.2.0/android/build.gradle"
+          fi
+          cd ..
           mv ./flutter/android/app/src/main/jniLibs/arm64-v8a/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
           cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/
           mv ./flutter/android/app/src/main/jniLibs/armeabi-v7a/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
