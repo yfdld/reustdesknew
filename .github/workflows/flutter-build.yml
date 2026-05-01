@@ -1031,6 +1031,11 @@ jobs:
                   content = content.replace('android {\n', 'android {\n' + insert, 1)
                   print(f'Added JVM 1.8 compatibility to {bg}')
                   changed = True
+              if 'kotlinOptions' not in content:
+                  insert = "    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n"
+                  content = content.replace('android {\n', 'android {\n' + insert, 1)
+                  print(f'Added kotlinOptions jvmTarget 1.8 to {bg}')
+                  changed = True
               if changed:
                   with open(bg, 'w') as f: f.write(content)
           PYEOF
@@ -1265,6 +1270,11 @@ jobs:
                   insert = "    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n"
                   content = content.replace('android {\n', 'android {\n' + insert, 1)
                   print(f'Added JVM 1.8 compatibility to {bg}')
+                  changed = True
+              if 'kotlinOptions' not in content:
+                  insert = "    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n"
+                  content = content.replace('android {\n', 'android {\n' + insert, 1)
+                  print(f'Added kotlinOptions jvmTarget 1.8 to {bg}')
                   changed = True
               if changed:
                   with open(bg, 'w') as f: f.write(content)
