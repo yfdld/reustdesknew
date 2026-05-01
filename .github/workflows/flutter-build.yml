@@ -1031,7 +1031,7 @@ jobs:
                   content = content.replace('android {\n', 'android {\n' + insert, 1)
                   print(f'Added JVM 1.8 compatibility to {bg}')
                   changed = True
-              if 'kotlinOptions' not in content:
+              if 'kotlinOptions' not in content and ('kotlin-android' in content or 'org.jetbrains.kotlin.android' in content):
                   insert = "    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n"
                   content = content.replace('android {\n', 'android {\n' + insert, 1)
                   print(f'Added kotlinOptions jvmTarget 1.8 to {bg}')
@@ -1271,7 +1271,7 @@ jobs:
                   content = content.replace('android {\n', 'android {\n' + insert, 1)
                   print(f'Added JVM 1.8 compatibility to {bg}')
                   changed = True
-              if 'kotlinOptions' not in content:
+              if 'kotlinOptions' not in content and ('kotlin-android' in content or 'org.jetbrains.kotlin.android' in content):
                   insert = "    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n"
                   content = content.replace('android {\n', 'android {\n' + insert, 1)
                   print(f'Added kotlinOptions jvmTarget 1.8 to {bg}')
