@@ -1007,6 +1007,7 @@ jobs:
           # Fix namespace and JVM compatibility for all third-party plugins
           cd flutter
           flutter pub get
+          dart run flutter_launcher_icons
           cat > /tmp/fix_namespace.py << 'PYEOF'
           import json, os, re
           data = json.load(open('.dart_tool/package_config.json'))
@@ -1247,6 +1248,7 @@ jobs:
           # Fix namespace and JVM compatibility for all third-party plugins
           cd flutter
           flutter pub get
+          dart run flutter_launcher_icons
           cat > /tmp/fix_namespace.py << 'PYEOF'
           import json, os, re
           data = json.load(open('.dart_tool/package_config.json'))
