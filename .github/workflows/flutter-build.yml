@@ -1004,7 +1004,7 @@ jobs:
           sed -i "s/org.gradle.jvmargs=-Xmx1024M/org.gradle.jvmargs=-Xmx2g/g" ./flutter/android/gradle.properties
           # temporary use debug sign config
           sed -i "s/signingConfigs.release/signingConfigs.debug/g" ./flutter/android/app/build.gradle
-          # Fix namespace for all third-party plugins (AGP 8.x requires namespace)
+          # Fix namespace and JVM compatibility for all third-party plugins
           cd flutter
           flutter pub get
           cat > /tmp/fix_namespace.py << 'PYEOF'
@@ -1017,14 +1017,22 @@ jobs:
               mf = os.path.join(root, 'android', 'src', 'main', 'AndroidManifest.xml')
               if not os.path.isfile(bg) or not os.path.isfile(mf): continue
               with open(bg) as f: content = f.read()
-              if 'namespace' in content: continue
-              with open(mf) as f: manifest = f.read()
-              m = re.search(r'package="([^"]+)"', manifest)
-              if m:
-                  ns = m.group(1)
-                  content = content.replace('android {', "android {\n    namespace '" + ns + "'", 1)
+              changed = False
+              if 'namespace' not in content:
+                  with open(mf) as f: manifest = f.read()
+                  m = re.search(r'package="([^"]+)"', manifest)
+                  if m:
+                      ns = m.group(1)
+                      content = content.replace('android {', "android {\n    namespace '" + ns + "'", 1)
+                      print(f'Added namespace {ns} to {bg}')
+                      changed = True
+              if 'compileOptions' not in content:
+                  insert = "    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n"
+                  content = content.replace('android {\n', 'android {\n' + insert, 1)
+                  print(f'Added JVM 1.8 compatibility to {bg}')
+                  changed = True
+              if changed:
                   with open(bg, 'w') as f: f.write(content)
-                  print(f'Added namespace {ns} to {bg}')
           PYEOF
           python3 /tmp/fix_namespace.py
           cd ..
@@ -1231,7 +1239,7 @@ jobs:
           sed -i "s/org.gradle.jvmargs=-Xmx1024M/org.gradle.jvmargs=-Xmx2g/g" ./flutter/android/gradle.properties
           # temporary use debug sign config
           sed -i "s/signingConfigs.release/signingConfigs.debug/g" ./flutter/android/app/build.gradle
-          # Fix namespace for all third-party plugins (AGP 8.x requires namespace)
+          # Fix namespace and JVM compatibility for all third-party plugins
           cd flutter
           flutter pub get
           cat > /tmp/fix_namespace.py << 'PYEOF'
@@ -1244,14 +1252,22 @@ jobs:
               mf = os.path.join(root, 'android', 'src', 'main', 'AndroidManifest.xml')
               if not os.path.isfile(bg) or not os.path.isfile(mf): continue
               with open(bg) as f: content = f.read()
-              if 'namespace' in content: continue
-              with open(mf) as f: manifest = f.read()
-              m = re.search(r'package="([^"]+)"', manifest)
-              if m:
-                  ns = m.group(1)
-                  content = content.replace('android {', "android {\n    namespace '" + ns + "'", 1)
+              changed = False
+              if 'namespace' not in content:
+                  with open(mf) as f: manifest = f.read()
+                  m = re.search(r'package="([^"]+)"', manifest)
+                  if m:
+                      ns = m.group(1)
+                      content = content.replace('android {', "android {\n    namespace '" + ns + "'", 1)
+                      print(f'Added namespace {ns} to {bg}')
+                      changed = True
+              if 'compileOptions' not in content:
+                  insert = "    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n"
+                  content = content.replace('android {\n', 'android {\n' + insert, 1)
+                  print(f'Added JVM 1.8 compatibility to {bg}')
+                  changed = True
+              if changed:
                   with open(bg, 'w') as f: f.write(content)
-                  print(f'Added namespace {ns} to {bg}')
           PYEOF
           python3 /tmp/fix_namespace.py
           cd ..
