@@ -9,9 +9,6 @@ env:
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
 
 jobs:
   # ensure_cargo_fmt:
